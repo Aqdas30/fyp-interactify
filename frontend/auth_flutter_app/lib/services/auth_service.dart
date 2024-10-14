@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
   final String baseUrl =
-      'http://192.168.0.122:8000/api/auth/'; // Update based on your environment
+      'http://172.24.0.1:8000/api/auth/'; // Update based on your environment
 
   Future<bool> register({
     required String username,

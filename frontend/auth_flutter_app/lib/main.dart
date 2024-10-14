@@ -8,6 +8,7 @@ import 'screens/login_screen.dart';
 import 'screens/register_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/verification_pending_screen.dart';
+import 'screens/forget_password.dart';
 import 'package:uni_links/uni_links.dart';
 import 'dart:async';
 
@@ -19,7 +20,7 @@ void main() {
           create: (_) => AuthProvider()..checkAuthStatus(),
         ),
       ],
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
@@ -63,14 +64,15 @@ class _MyAppState extends State<MyApp> {
               showDialog(
                 context: context,
                 builder: (context) => AlertDialog(
-                  title: Text('Verification Failed'),
-                  content: Text('Email verification failed. Please try again.'),
+                  title: const Text('Verification Failed'),
+                  content: const Text(
+                      'Email verification failed. Please try again.'),
                   actions: [
                     TextButton(
                       onPressed: () {
                         Navigator.pop(context); // Close the dialog
                       },
-                      child: Text('OK'),
+                      child: const Text('OK'),
                     ),
                   ],
                 ),
@@ -95,28 +97,30 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Auth Flutter App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       home: determineHomeScreen(authProvider),
       routes: {
-        '/login': (_) => LoginScreen(),
-        '/register': (_) => RegisterScreen(),
-        '/home': (_) => HomeScreen(),
-        '/verification-pending': (_) => VerificationPendingScreen(),
+        '/login': (_) => const LoginScreen(),
+        '/register': (_) => const RegisterScreen(),
+        '/home': (_) => const HomeScreen(),
+        '/verification-pending': (_) => const VerificationPendingScreen(),
         '/email-verified': (context) => EmailVerificationResultScreen(),
+        '/forgot-password': (context) => const ForgotPasswordScreen()
       },
     );
   }
 
   Widget determineHomeScreen(AuthProvider authProvider) {
     if (authProvider.isAuthenticated) {
-      return HomeScreen();
+      return const HomeScreen();
     } else if (authProvider.registeredEmail != null) {
-      return VerificationPendingScreen();
+      return const VerificationPendingScreen();
     } else {
-      return LoginScreen();
+      return const LoginScreen();
     }
   }
 }

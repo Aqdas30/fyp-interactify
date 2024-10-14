@@ -40,63 +40,202 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
-      appBar: AppBar(title: const Text('Register')),
+      backgroundColor: const Color(
+          0xFFada7af), // Set the background color to match the mockup
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Form(
                 key: _formKey,
                 child: SingleChildScrollView(
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      const SizedBox(height: 60),
+                      const Text(
+                        'Create new Account',
+                        style: TextStyle(
+                          fontSize: 24,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+
+                      // First Name Field
                       TextFormField(
-                        decoration:
-                            const InputDecoration(labelText: 'Username'),
+                        decoration: const InputDecoration(
+                          labelText: 'First Name',
+                          labelStyle: TextStyle(color: Colors.white),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white),
+                          ),
+                        ),
+                        style: const TextStyle(color: Colors.white),
+                        onSaved: (val) => firstName = val!.trim(),
+                        validator: (val) =>
+                            val!.isEmpty ? 'Enter first name' : null,
+                      ),
+                      const SizedBox(height: 10),
+
+                      // Last Name Field
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          labelText: 'Last Name',
+                          labelStyle: TextStyle(color: Colors.white),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white),
+                          ),
+                        ),
+                        style: const TextStyle(color: Colors.white),
+                        onSaved: (val) => lastName = val!.trim(),
+                        validator: (val) =>
+                            val!.isEmpty ? 'Enter last name' : null,
+                      ),
+                      const SizedBox(height: 10),
+
+                      // Username Field
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          labelText: 'User name',
+                          labelStyle: TextStyle(color: Colors.white),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white),
+                          ),
+                          prefixIcon: Icon(Icons.person_2, color: Colors.white),
+                        ),
+                        style: const TextStyle(color: Colors.white),
                         onSaved: (val) => username = val!.trim(),
                         validator: (val) =>
                             val!.isEmpty ? 'Enter username' : null,
                       ),
+                      const SizedBox(height: 10),
+
+                      // Email Field
                       TextFormField(
-                        decoration: const InputDecoration(labelText: 'Email'),
+                        decoration: const InputDecoration(
+                          labelText: 'Email',
+                          labelStyle: TextStyle(color: Colors.white),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white),
+                          ),
+                          prefixIcon:
+                              Icon(Icons.email_outlined, color: Colors.white),
+                        ),
+                        style: const TextStyle(color: Colors.white),
                         onSaved: (val) => email = val!.trim(),
                         validator: (val) => val!.isEmpty || !val.contains('@')
                             ? 'Enter valid email'
                             : null,
                       ),
+                      const SizedBox(height: 10),
+
+                      // Password Field
                       TextFormField(
-                        decoration:
-                            const InputDecoration(labelText: 'First Name'),
-                        onSaved: (val) => firstName = val!.trim(),
-                        validator: (val) =>
-                            val!.isEmpty ? 'Enter first name' : null,
-                      ),
-                      TextFormField(
-                        decoration:
-                            const InputDecoration(labelText: 'Last Name'),
-                        onSaved: (val) => lastName = val!.trim(),
-                        validator: (val) =>
-                            val!.isEmpty ? 'Enter last name' : null,
-                      ),
-                      TextFormField(
-                        decoration:
-                            const InputDecoration(labelText: 'Password'),
+                        decoration: const InputDecoration(
+                          labelText: 'Password',
+                          labelStyle: TextStyle(color: Colors.white),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white),
+                          ),
+                          prefixIcon: Icon(Icons.key, color: Colors.white),
+                        ),
                         obscureText: true,
+                        style: const TextStyle(color: Colors.white),
                         onSaved: (val) => password = val!.trim(),
                         validator: (val) => val!.length < 6
                             ? 'Password must be at least 6 characters'
                             : null,
                       ),
                       const SizedBox(height: 20),
+
+                      // Profile Image Section (Updated with Text next to the CircleAvatar)
+                      GestureDetector(
+                        onTap: _pickImage,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                CircleAvatar(
+                                  radius: 50,
+                                  backgroundColor: Colors.white,
+                                  child: _faceImage == null
+                                      ? const Icon(Icons.person,
+                                          size: 60, color: Color(0xFF1d0416))
+                                      : ClipOval(
+                                          child: Image.file(
+                                            _faceImage!,
+                                            fit: BoxFit.cover,
+                                            width: 100,
+                                            height: 100,
+                                          ),
+                                        ),
+                                ),
+                                const Positioned(
+                                  bottom: 0,
+                                  right: 0,
+                                  child: CircleAvatar(
+                                    backgroundColor: Color(0xFF1d0416),
+                                    radius: 15,
+                                    child: Icon(Icons.add_a_photo,
+                                        size: 20, color: Colors.white),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                                width: 15), // Space between image and text
+                            const Text(
+                              "Set Profile Image",
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+
+                      // Capture Face Image Button
                       ElevatedButton(
                         onPressed: _pickImage,
-                        child: const Text('Capture Face Image'),
-                      ),
-                      if (_faceImage != null)
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image.file(_faceImage!),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              const Color(0xFF1d0416), // Button color
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 50, vertical: 15),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
                         ),
+                        child: const Text(
+                          'CAPTURE FACE IMAGE',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+
+                      // Register Button
                       ElevatedButton(
                         onPressed: () async {
                           final form = _formKey.currentState;
@@ -141,20 +280,41 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             });
                           }
                         },
-                        child: const Text('Register'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              const Color(0xFF1d0416), // Button color
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 50, vertical: 15),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                        ),
+                        child: const Text(
+                          'REGISTER',
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
-                      const SizedBox(height: 10),
+                      //const SizedBox(height: 1),
+
+                      // Display any registration message
                       Text(
                         message,
                         style: TextStyle(color: successColor(message)),
                         textAlign: TextAlign.center,
                       ),
+                      //const SizedBox(height: 1),
+
+                      // Login Link
                       TextButton(
                         onPressed: () {
                           Navigator.pushReplacementNamed(context, '/login');
                         },
-                        child: const Text('Already have an account? Login'),
+                        child: const Text(
+                          'Already have an account? Login',
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
+                      const SizedBox(height: 30),
                     ],
                   ),
                 ),

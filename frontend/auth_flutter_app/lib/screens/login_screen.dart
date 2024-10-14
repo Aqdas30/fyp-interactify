@@ -23,31 +23,111 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Login')),
+      backgroundColor:
+          const Color(0xFFada7af), // Background color from your provided scheme
+      resizeToAvoidBottomInset:
+          true, // To avoid bottom overflow when keyboard appears
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
-          : Padding(
-              padding: const EdgeInsets.all(16.0),
+          : SingleChildScrollView(
+              // Wrap with SingleChildScrollView to enable scrolling when keyboard appears
+              padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Form(
                 key: _formKey,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    const SizedBox(
+                        height: 80), // Space from top to center the form
+
+                    // Logo image
+                    Image.asset(
+                      'images/logo.png', // Ensure your logo is in this location
+                      height: 250, // Set the height you want
+                      width: 250, // Set the width you want
+                      fit: BoxFit.contain,
+                    ),
+                    //const SizedBox(height: 10), // Space between logo and form
+
+                    // Username field
                     TextFormField(
-                      decoration: const InputDecoration(labelText: 'Username'),
+                      decoration: const InputDecoration(
+                        labelText: 'User name',
+                        labelStyle: TextStyle(color: Colors.white),
+                        prefixIcon: Icon(Icons.person_2,
+                            color: Colors.white), // Icon color
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.white), // Underline border color
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white),
+                        ),
+                      ),
+                      style: const TextStyle(
+                          color: Colors.white), // Text color for input
                       onSaved: (val) => username = val!.trim(),
                       validator: (val) =>
                           val!.isEmpty ? 'Enter username' : null,
                     ),
+                    const SizedBox(height: 20), // Space between input fields
+
+                    // Password field
                     TextFormField(
-                      decoration: const InputDecoration(labelText: 'Password'),
+                      decoration: const InputDecoration(
+                        labelText: 'Password',
+                        labelStyle: TextStyle(color: Colors.white),
+                        prefixIcon:
+                            Icon(Icons.key, color: Colors.white), // Icon color
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.white), // Underline border color
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white),
+                        ),
+                      ),
                       obscureText: true,
+                      style: const TextStyle(color: Colors.white),
                       onSaved: (val) => password = val!.trim(),
                       validator: (val) =>
                           val!.isEmpty ? 'Enter password' : null,
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(
+                        height:
+                            5), // Small space between input and "Forgot Password"
+
+                    // Forgot password link
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(
+                              context, '/forgot-password');
+                        },
+                        child: const Text(
+                          'Forgot your password?',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+
+                    // Login button
                     ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            const Color(0xFF1d0416), // Button color
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 50, vertical: 15),
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(30), // Rounded button
+                        ),
+                      ),
                       onPressed: () async {
                         final form = _formKey.currentState;
                         if (form != null && form.validate()) {
@@ -79,19 +159,35 @@ class _LoginScreenState extends State<LoginScreen> {
                           }
                         }
                       },
-                      child: const Text('Login'),
+                      child: const Text(
+                        'LOGIN',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
-                    const SizedBox(height: 10),
+                    //const SizedBox(
+                    //height: 0), // Space between button and message
+
+                    // Display any login message
                     Text(
                       message,
                       style: TextStyle(color: successColor(message)),
                     ),
+
+                    // Register link
                     TextButton(
                       onPressed: () {
                         Navigator.pushReplacementNamed(context, '/register');
                       },
-                      child: const Text('Don\'t have an account? Register'),
+                      child: const Text(
+                        'Don\'t have an account? Register',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
+
+                    const SizedBox(height: 40), // Extra space at the bottom
                   ],
                 ),
               ),

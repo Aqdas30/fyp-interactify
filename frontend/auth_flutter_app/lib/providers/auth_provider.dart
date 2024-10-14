@@ -12,7 +12,7 @@ class AuthProvider with ChangeNotifier {
   final AuthService _authService = AuthService();
   bool _isAuthenticated = false;
   String? _registeredEmail; // To store the email of the newly registered user
-  final String baseUrl = 'http://192.168.0.122:8000/api/auth/';
+  final String baseUrl = 'http://172.24.0.1:8000/api/auth/';
 
   bool get isAuthenticated => _isAuthenticated;
   String? get registeredEmail => _registeredEmail; // Getter for registeredEmail

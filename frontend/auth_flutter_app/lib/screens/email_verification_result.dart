@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:uni_links/uni_links.dart';
 
 class EmailVerificationResultScreen extends StatefulWidget {
+  const EmailVerificationResultScreen({super.key});
+
   @override
   _EmailVerificationResultScreenState createState() =>
       _EmailVerificationResultScreenState();
@@ -48,13 +50,13 @@ class _EmailVerificationResultScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Email Verification Result')),
+      appBar: AppBar(title: const Text('Email Verification Result')),
       body: Center(
         child: _verificationSuccess == null
-            ? CircularProgressIndicator()
+            ? const CircularProgressIndicator()
             : _verificationSuccess!
-                ? Text('Email verified successfully!')
-                : Text('Email verification failed. Please try again.'),
+                ? const Text('Email verified successfully!')
+                : const Text('Email verification failed. Please try again.'),
       ),
     );
   }
