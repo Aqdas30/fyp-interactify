@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
-import 'verification_pending_screen.dart'; // Import the new screen
+// Import the new screen
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 

@@ -9,6 +9,7 @@ import 'screens/register_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/verification_pending_screen.dart';
 import 'screens/forget_password.dart';
+import 'screens/profile.dart';
 import 'package:uni_links/uni_links.dart';
 import 'dart:async';
 
@@ -102,14 +103,16 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: determineHomeScreen(authProvider),
+      // home: determineHomeScreen(authProvider),
+      home: ProfilePage(),
       routes: {
         '/login': (_) => const LoginScreen(),
         '/register': (_) => const RegisterScreen(),
         '/home': (_) => const HomeScreen(),
         '/verification-pending': (_) => const VerificationPendingScreen(),
-        '/email-verified': (context) => EmailVerificationResultScreen(),
-        '/forgot-password': (context) => const ForgotPasswordScreen()
+        '/email-verified': (context) => const EmailVerificationResultScreen(),
+        '/forgot-password': (context) => const ForgotPasswordScreen(),
+        '/profile': (context) => ProfilePage()
       },
     );
   }
